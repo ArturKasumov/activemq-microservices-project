@@ -1,0 +1,80 @@
+version: '3.8'
+
+services:
+
+  activemq-artemis:
+    image: apache/activemq-artemis:2.40.0
+    container_name: activemq-artemis
+    restart: on-failure
+    networks:
+      - business-flow
+    ports:
+      - "61616:61616"
+      - "8161:8161"
+    environment:
+      - ARTEMIS_USER=admin
+      - ARTEMIS_PASSWORD=admin
+    volumes:
+      - activemq_data:/var/lib/artemis-instance
+
+  address-service:
+    image: address-service:0.0.1
+    container_name: address-service
+    restart: on-failure
+    networks:
+      - business-flow
+    ports:
+      - "1063:1063"
+    environment:
+      - ACTIVEMQ_URL=admin
+      - ACTIVEMQ_PWD=admin
+      - ACTIVEMQ_URL=tcp://activemq-artemis:61616
+
+  fullname-service:
+    image: fullname-service:0.0.1
+    container_name: fullname-service
+    restart: on-failure
+    networks:
+      - business-flow
+    ports:
+      - "1062:1062"
+    environment:
+      - ACTIVEMQ_URL=admin
+      - ACTIVEMQ_PWD=admin
+      - ACTIVEMQ_URL=tcp://activemq-artemis:61616
+
+  gateway-service:
+    image: gateway-service:0.0.1
+    container_name: gateway-service
+    restart: on-failure
+    networks:
+      - business-flow
+    ports:
+      - "1061:1061"
+    environment:
+      - ACTIVEMQ_URL=admin
+      - ACTIVEMQ_PWD=admin
+      - ACTIVEMQ_URL=tcp://activemq-artemis:61616
+
+  persist-data-service:
+    image: persist-data-service:0.0.1
+    container_name: persist-data-service
+    restart: on-failure
+    networks:
+      - business-flow
+    ports:
+      - "1064:1064"
+    environment:
+      - ACTIVEMQ_URL=admin
+      - ACTIVEMQ_PWD=admin
+      - ACTIVEMQ_URL=tcp://activemq-artemis:61616
+      - DATASOURCE_URL=jdbc:h2:file:/root/test;
+      - DATASOURCE_USERNAME=sa
+      - DATASOURCE_PWD=pwd
+
+volumes:
+  activemq_data:
+
+networks:
+  business-flow:
+    driver: bridge

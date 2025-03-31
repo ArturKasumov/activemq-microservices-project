@@ -1,0 +1,8 @@
+server:
+  port: 1061
+activemq:
+  broker-url: ${ACTIVEMQ_URL:tcp://localhost:61616}
+  password: ${ACTIVEMQ_PWD:admin}
+  username: ${ACTIVEMQ_USER:admin}
+  client-id: gateway-service
+  process-customer-topic: process.customer.topic

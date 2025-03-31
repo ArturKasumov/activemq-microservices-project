@@ -1,0 +1,28 @@
+server:
+  port: 1064
+activemq:
+  broker-url: ${ACTIVEMQ_URL:tcp://localhost:61616}
+  password: ${ACTIVEMQ_PWD:admin}
+  username: ${ACTIVEMQ_USER:admin}
+  client-id: persist-data-service
+  persist-data-queue: persist.data.queue
+spring:
+  h2:
+    console:
+      settings:
+        web-allow-others: true
+      enabled: true
+      path: /h2-console
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: ${DATASOURCE_URL:jdbc:h2:mem:testdb}
+    username: ${DATASOURCE_USERNAME:sa}
+    password: ${DATASOURCE_PWD:pwd}
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: false

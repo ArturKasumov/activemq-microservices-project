@@ -1,0 +1,9 @@
+server:
+  port: 1062
+activemq:
+  broker-url: ${ACTIVEMQ_URL:tcp://localhost:61616}
+  password: ${ACTIVEMQ_PWD:admin}
+  username: ${ACTIVEMQ_USER:admin}
+  client-id: full-name-service
+  process-customer-topic: process.customer.topic
+  persist-data-queue: persist.data.queue
