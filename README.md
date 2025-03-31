@@ -7,3 +7,6 @@ And durable topic is used to ensure that if consumers are unavailable, they can 
 Fullname-service and address-service subscribe to this topic. The fullname-service retrieves the customer's full name,
 while the address-service fetches the customer's address. Once they process the data, they send messages with the retrieved information to persist.data.queue.
 The final microservice persist-data-service listens to messages from persist.data.queue and updates the customer’s record in the database. 
+
+To improve the system, an error queue should be added to handle failed message processing.
+If some service encounters an error and can not retrieve the required data the message should be sent to error.queue instead of being lost.
